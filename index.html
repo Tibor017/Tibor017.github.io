@@ -1,11 +1,67 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hu">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tibor GeoGuessr</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-    <p>Hello szia valencia</p>
+<body class="bg-gray-100 p-6">
+    <div class="max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-lg">
+        <h1 class="text-2xl font-bold mb-4">Tibor's GeoGuessr Maps & Distributions</h1>
+        
+        <div class="grid grid-cols-2 gap-6">
+            <div>
+                <h2 class="text-lg font-semibold">Maps</h2>
+                <input type="text" id="search1" placeholder="Keresés..." class="w-full p-2 border rounded mb-2" onkeyup="filterList('list1', 'search1')">
+                <select onchange="sortList('list1', this.value)" class="w-full p-2 border rounded mb-2">
+                    <option value="asc">ABC sorrend</option>
+                    <option value="desc">Fordított ABC</option>
+                </select>
+                <ul id="list1" class="list-disc pl-5 space-y-2">
+                    <li><a href="https://www.geoguessr.com/maps/67d82ebe0b7fcfd34eade104" contenteditable="true">An Arbitrary Baltics</a></li>
+                    <li><a href="https://www.geoguessr.com/maps/67cf1253695f1cc3c858eea2" contenteditable="true">An Indoor Hungary</a></li>
+                    <li><a href="https://www.geoguessr.com/maps/67d03e2b665c2c6bc30f5596" contenteditable="true">An Indoor Vienna</a></li>
+                    <li><a href="https://www.geoguessr.com/maps/67d5d7b47803293885e560bb" contenteditable="true">A Rural Balkans</a></li>
+                </ul>
+            </div>
+            <div>
+                <h2 class="text-lg font-semibold">Distributions</h2>
+                <input type="text" id="search2" placeholder="Keresés..." class="w-full p-2 border rounded mb-2" onkeyup="filterList('list2', 'search2')">
+                <select onchange="sortList('list2', this.value)" class="w-full p-2 border rounded mb-2">
+                    <option value="asc">ABC sorrend</option>
+                    <option value="desc">Fordított ABC</option>
+                </select>
+                <ul id="list2" class="list-disc pl-5 space-y-2">
+                    <li><a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vQU9On40qflShYyZ4vBn-Pqf6xJg-BlBe9BwCOmmGunjtU_pd-y0QEN3fj3Fh66lmBUpZn5bLiD8uCN/pubhtml" contenteditable="true">An Arbitrary Baltics</a></li>
+                    <li><a href="https://docs.google.com/spreadsheets/u/2/d/e/2PACX-1vTN26-p2ZxLWRbTivFt5zy2ED1Gp6OQP5KxOub2_UIjwPVuHc48-cJzu2mS5QhghAygbyaCWODwBMNB/pubhtml" contenteditable="true">A Rural Balkans</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function filterList(listId, searchId) {
+            let filter = document.getElementById(searchId).value.toLowerCase();
+            let list = document.getElementById(listId);
+            let items = list.getElementsByTagName("li");
+            for (let item of items) {
+                let text = item.textContent.toLowerCase();
+                item.style.display = text.includes(filter) ? "list-item" : "none";
+            }
+        }
+
+        function sortList(listId, order) {
+            let list = document.getElementById(listId);
+            let items = Array.from(list.getElementsByTagName("li"));
+            items.sort((a, b) => {
+                let textA = a.textContent.toLowerCase();
+                let textB = b.textContent.toLowerCase();
+                return order === "asc" ? textA.localeCompare(textB) : textB.localeCompare(textA);
+            });
+            list.innerHTML = "";
+            items.forEach(item => list.appendChild(item));
+        }
+    </script>
 </body>
 </html>
